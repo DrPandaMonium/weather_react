@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import './App.css'
 
 const App = () => {
     const apiKey = '29f7dbbd7470b28ced9e372d41098ace';
@@ -14,13 +15,14 @@ const App = () => {
             
         } else {
             let data = await response.json();
-            setWeather({
-                city: data.name,
-                temp: data.main.temp,
-                humidity: data.main.humidity,
-                wind: data.wind.speed
-            });
+            // setWeather({
+            //     city: data.name,
+            //     temp: data.main.temp,
+            //     humidity: data.main.humidity,
+            //     wind: data.wind.speed
+            // });
             console.log(data);
+            setWeather({data})
         }
     }
 
@@ -37,18 +39,18 @@ const App = () => {
                 <button onClick={() => checkWeather(searchTerm)}>Search</button>
             </div>
             <div className='weather'>
-                <h1 className="temp">{weather.temp}°F</h1>
-                <h2 className="city">{weather.city}</h2>
+                <h1 className="temp">{weather.data.main.temp}°F</h1>
+                <h2 className="city">{weather.data.name}</h2>
                 <div className="details">
                     <div className="col">
                         <div>
-                            <p className="humidity">{weather.humidity}</p>
+                            <p className="humidity">{weather.data.main.humidity}%</p>
                             <p>Humidity</p>
                         </div>
                     </div>
                     <div className="col">
                         <div>
-                            <p className="wind">{weather.wind}kph</p>
+                            <p className="wind">{weather.data.wind.speed}km/h</p>
                             <p>Wind Speed</p>
                         </div>
                     </div>
