@@ -11,23 +11,21 @@ const App = () => {
     async function checkWeather(city) {
         const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
 
-        if (response.status == 404) {
+        if (response.status === 404) {
             
         } else {
-            let data = await response.json();
+            setWeather(await response.json());
             // setWeather({
             //     city: data.name,
             //     temp: data.main.temp,
             //     humidity: data.main.humidity,
             //     wind: data.wind.speed
             // });
-            console.log(data);
-            setWeather({data})
         }
     }
 
     useEffect(() => {
-        checkWeather('Nashville')
+        checkWeather('nashville')
     }, []);
 
     console.log(weather);
@@ -39,18 +37,18 @@ const App = () => {
                 <button onClick={() => checkWeather(searchTerm)}>Search</button>
             </div>
             <div className='weather'>
-                <h1 className="temp">{weather.data.main.temp}°F</h1>
-                <h2 className="city">{weather.data.name}</h2>
+                <h1 className="temp">{weather.main.temp}°F</h1>
+                <h2 className="city">{weather.name}</h2>
                 <div className="details">
                     <div className="col">
                         <div>
-                            <p className="humidity">{weather.data.main.humidity}%</p>
+                            <p className="humidity">{weather.main.humidity}%</p>
                             <p>Humidity</p>
                         </div>
                     </div>
                     <div className="col">
                         <div>
-                            <p className="wind">{weather.data.wind.speed}km/h</p>
+                            <p className="wind">{weather.wind.speed}km/h</p>
                             <p>Wind Speed</p>
                         </div>
                     </div>
