@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import './App.css'
+import './App.css';
+import Weather from "./Weather";
 
 const App = () => {
     const apiKey = '29f7dbbd7470b28ced9e372d41098ace';
@@ -11,8 +12,8 @@ const App = () => {
     async function checkWeather(city) {
         const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
 
-        if (response.status === 404) {
-            
+        if (response.status === 404 || response.status === 400) {
+            setWeather({});
         } else {
             setWeather(await response.json());
             // setWeather({
@@ -21,6 +22,12 @@ const App = () => {
             //     humidity: data.main.humidity,
             //     wind: data.wind.speed
             // });
+        }
+    }
+
+    const handleEnter = (e) => {
+        if (e.key === 'Enter') {
+            checkWeather(searchTerm);
         }
     }
 
@@ -33,27 +40,10 @@ const App = () => {
     return (
         <div className='card'>
             <div className='search'>
-                <input type='text' placeholder="Enter City Name" spellCheck='false' onChange={(e) => setSearchTerm(e.target.value)}></input>
+                <input type='text' placeholder="Enter City Name" spellCheck='false' onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={handleEnter}></input>
                 <button onClick={() => checkWeather(searchTerm)}>Search</button>
             </div>
-            <div className='weather'>
-                <h1 className="temp">{weather.main.temp}°F</h1>
-                <h2 className="city">{weather.name}</h2>
-                <div className="details">
-                    <div className="col">
-                        <div>
-                            <p className="humidity">{weather.main.humidity}%</p>
-                            <p>Humidity</p>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div>
-                            <p className="wind">{weather.wind.speed}km/h</p>
-                            <p>Wind Speed</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {Object.keys(weather).length > 0 ? <Weather weather={weather} /> : <h1>City Search</h1>}
         </div>
     )
 }
