@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import './App.css';
-import Weather from "./Weather";
+import Weather from "./components/Weather";
 
 const App = () => {
     const apiKey = '29f7dbbd7470b28ced9e372d41098ace';
@@ -34,8 +34,6 @@ const App = () => {
     useEffect(() => {
         checkWeather('nashville')
     }, []);
-
-    console.log(weather);
 
     return (
         <div className='card'>
